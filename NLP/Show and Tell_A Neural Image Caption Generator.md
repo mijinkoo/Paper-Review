@@ -57,7 +57,7 @@
 ![LSTM의 게이트](./img/LSTM게이트.png)
 > 게이트의 수식은 위와 같다. 위의 수식에선 hidden state를 $m_t$로 나타냈다. $m_t$에 softmax를 씌워 모든 단어에 대한 확률 분포 $p_t$를 생성한다.
 
-#### Training
+### Training
 * 이러한 구조를 가진 LSTM은 이미지와 이전까지의 단어(S0부터 St−1)를 토대로 다음단어(St)를 예측해내도록 학습된다. 
 
 ![figure3](./img/fig3.png)
@@ -74,7 +74,7 @@
 
 * Loss를 최소화 시키는 방향으로 LSTM의 parameter와 word embedding We, CNN의 image embedding을 하는 top layer를 학습한다.
 
-#### inference
+### inference
 sentence를 만드는 방법은 여러 가지가 있다. 
 * 첫번째 방법은 p1에 따라 첫번째 단어를 만들고, 이를 다시 input으로 넣어 p2를 만들고, 이를 end-of-sentence 토큰이 나오거나 최대 길이가 될 때까지 반복하는 **Sampling**기법이 있다.
 * 두번째로는 매 t번째까지의 input으로 만들어진 최적의 문장 k개를 후보로 저장하고 또 그 후보들로 만든 t+1번째까지의 문장 중 k개의 문장을 반환하는 **BeamSearch** 기법이 있다.
@@ -132,10 +132,10 @@ generating의 관점에서, 모델이 새로운 caption을 만들어냈는지, �
 * 이때 ground truth에 대해 reference sentence 점수차도 많이 나는 것을 보아 BLEU가 완벽한 평가지표가 아님을 알 수 있다.
 
 #### 4.3-7 Analysis of Embeddings
-이전 단어 St−1을 LSTM의 input으로 넣어주기 위해 사용한 word embedding은 one-hot-encoding과 다르게 dictionary size에 제한되지 않는다.(!) 따라서 다른 모델들과 함께 jointly trained될 수 있다. 다음은 학습된 embedding space에서 근접이웃들의 몇가지 예시이다.
+* 이전 단어 St−1을 LSTM의 input으로 넣어주기 위해 사용한 word embedding은 one-hot-encoding과 다르게 dictionary size에 제한되지 않는다. 따라서 다른 모델들과 함께 jointly trained될 수 있다.
 ![table6](./img/table6.png)
+> 이렇게 model에서 학습된 관계는 vision component에도 도움을 줄 수 있다. horse와 pony, donkey를 비슷한 위치에 있음으로 CNN이 horse-looking 동물의 feature를 extract하는 것이 더 수월해진다.
 
-이렇게 model에서 학습된 관계는 vision component에도 도움을 줄 수 있는데, horse와 pony, donkey를 비슷한 위치에 있음으로 CNN이 horse-looking 동물의 feature를 extract하는 것이 더 수월해진다.(!) 아주 극단적인 케이스, 예를 들어 유니콘(unicorn)이 제시되어도 다른 word embedding과의 근접성으로 인해 추가적인 정보를 줄 것이다.(라고 가정을 했다.)
-
-## 5. 추가 제언
-추가로 이미지와 텍스트가 각각 있는 unsupervised data에서 image description의 성능을 향상시킬 수 있는 방법을 연구하는 것도 흥미로울 것이당.
+## 5. Conclusion
+* 데이터 집합의 크기가 증가하면 NIC와 같은 접근 방식의 성능도 증가한다는 것을 알 수 있다. 
+* 이미지 단독 및 텍스트 단독에서 감독되지 않은 데이터를 사용하여 image description 방식을 개선하는 방법을 살펴보는 것도 흥미로울 것이다.
